@@ -1,0 +1,5 @@
+---
+- name: restart cpuminer
+  service:
+    name: cpuminer
+    state: restarted

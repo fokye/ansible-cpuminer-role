@@ -1,0 +1,68 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:		cpuminer
+# Required-Start:	$remote_fs $syslog
+# Required-Stop:	$remote_fs $syslog
+# Default-Start:	2 3 4 5
+# Default-Stop:		
+# Short-Description:	CPU Miner
+### END INIT INFO
+
+set -e
+
+start_cpuminer() {
+  stop_cpuminer
+  /usr/sbin/minerd \
+    --algo={{ cpuminer_algorithm }} \
+    --threads={{ cpuminer_threads }} \
+    --scantime={{ cpuminer_scan_time }} \
+    --url={{ cpuminer_pool_url }} \
+    --user={{ cpuminer_pool_username }} \
+    --pass={{ cpuminer_pool_password }} \
+    --background
+}
+
+stop_cpuminer() {
+  cpuminer_pids=$(pgrep minerd | xargs)
+  [ -z "${cpuminer_pids}" ] || kill ${cpuminer_pids}
+}
+
+restart_cpuminer() {
+  stop_cpuminer
+  sleep 2
+  start_cpuminer
+}
+
+case "$1" in
+  start)
+    start_cpuminer
+    ;;
+
+  stop)
+    stop_cpuminer
+    ;;
+
+  reload|force-reload)
+    restart_cpuminer
+    ;;
+
+  restart)
+    restart_cpuminer
+    ;;
+
+  try-restart)
+    restart_cpuminer
+    ;;
+
+  status)
+    ps -ef|grep cpuminer|grep -v grep
+    ;;
+
+  *)
+    echo  "Usage: /etc/init.d/cpuminer {start|stop|reload|force-reload|restart|try-restart|status}"
+    exit 1
+
+esac
+
+exit 0

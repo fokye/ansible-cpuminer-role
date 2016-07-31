@@ -1,0 +1,14 @@
+---
+cpuminer_version: 2.4.5
+cpuminer_sha256_checksum: 0e1ce0ff2d0b06f08a335ee9cf37485a3388280f830f829f176edfb9
+
+cpuminer_system_user: cpuminer
+cpuminer_system_group: cpuminer
+
+cpuminer_algorithm: scrypt
+cpuminer_threads: 6
+cpuminer_scan_time: 4
+
+cpuminer_pool_url: REPLACE_ME
+cpuminer_pool_username: REPLACE_ME
+cpuminer_pool_password: REPLACE_ME

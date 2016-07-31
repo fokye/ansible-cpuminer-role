@@ -1,0 +1,54 @@
+---
+- name: add cpuminer group
+  group:
+    name: "{{ cpuminer_system_group }}"
+    system: yes
+    state: present
+- name: add cpuminer user
+  user:
+    name: "{{ cpuminer_system_user }}"
+    system: yes
+    shell: /bin/sh
+    group: "{{ cpuminer_system_group }}"
+    state: present
+- name: check whether cpuminer is installed
+  command: test -x /usr/sbin/minerd
+  register: cpuminer_installed
+  ignore_errors: True
+- name: download cpuminer
+  get_url:
+    checksum: "sha256:{{ cpuminer_sha256_checksum }}"
+    dest: "/tmp/cpuminer-{{ cpuminer_version }}.tar.gz"
+    owner: "{{ cpuminer_system_user }}"
+    group: "{{ cpuminer_system_group }}"
+    mode: 0440
+    url: "https://github.com/pooler/cpuminer/releases/download/v{{ cpuminer_version }}/pooler-cpuminer-{{ cpuminer_version }}-linux-x86_64.tar.gz"
+  when: cpuminer_installed|failed
+- name: extract cpuminer
+  unarchive:
+    copy: no
+    src: "/tmp/cpuminer-{{ cpuminer_version }}.tar.gz"
+    dest: /usr/sbin/
+    creates: /usr/sbin/minerd
+    owner: "{{ cpuminer_system_user }}"
+    group: "{{ cpuminer_system_group }}"
+    mode: 0550
+  notify:
+  - restart cpuminer
+- name: configure cpuminer service
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+    owner: "{{ cpuminer_system_user }}"
+    group: "{{ cpuminer_system_group }}"
+    mode: 0550
+  with_items:
+  - etc/init.d/cpuminer
+  notify:
+  - restart cpuminer
+- name: enable cpuminer service
+  service:
+    name: cpuminer
+    enabled: yes
+  notify:
+  - restart cpuminer
