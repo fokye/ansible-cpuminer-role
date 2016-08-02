@@ -14,7 +14,7 @@
 - name: check whether cpuminer is installed
   command: test -x /usr/sbin/minerd
   register: cpuminer_installed
-  ignore_errors: True
+  ignore_errors: yes
 - name: download cpuminer
   get_url:
     checksum: "sha256:{{ cpuminer_sha256_checksum }}"

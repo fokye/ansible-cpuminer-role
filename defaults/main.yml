@@ -1,6 +1,6 @@
 ---
 cpuminer_version: 2.4.5
-cpuminer_sha256_checksum: 0e1ce0ff2d0b06f08a335ee9cf37485a3388280f830f829f176edfb9
+cpuminer_sha256_checksum: 0e1ce0ff2d0b06f08a335ee9cf37485a3388280f830f829f176edfb9a0f04e9e
 
 cpuminer_system_user: cpuminer
 cpuminer_system_group: cpuminer
