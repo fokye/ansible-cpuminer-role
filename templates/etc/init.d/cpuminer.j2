@@ -13,14 +13,7 @@ set -e
 
 start_cpuminer() {
   stop_cpuminer
-  /usr/sbin/minerd \
-    --algo={{ cpuminer_algorithm }} \
-    --threads={{ cpuminer_threads }} \
-    --scantime={{ cpuminer_scan_time }} \
-    --url={{ cpuminer_pool_url }} \
-    --user={{ cpuminer_pool_username }} \
-    --pass={{ cpuminer_pool_password }} \
-    --background
+  sudo su - '{{ cpuminer_system_user }}' -c '/usr/sbin/minerd --algo={{ cpuminer_algorithm }} --threads={{ cpuminer_threads }} --scantime={{ cpuminer_scan_time }} --url={{ cpuminer_pool_url }} --user={{ cpuminer_pool_username }} --pass={{ cpuminer_pool_password }} --background'
 }
 
 stop_cpuminer() {
