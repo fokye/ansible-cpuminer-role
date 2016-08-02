@@ -1,13 +1,10 @@
 # Ansible Role: cpuminer
 
-This role can be used to deploy [cpuminer](https://github.com/pooler/cpuminer) to
-target machines.
+ * Deploy [cpuminer](https://github.com/pooler/cpuminer) (`minerd`) to target machines.
 
-This role was created to ease the process of deploying Defcoin miners, but may be
-used for other cryptocurrencies as well.
+ * Ease the process of deploying miners for DEFCOIN and/or other cryptocurrencies.
 
-This role is currently designed to be used with 64-bit Debian hosts. Pull requests
-to support other hosts are welcome.
+ * Designed to be deployed to 64-bit Debian hosts. Pull requests to support other hosts are welcome.
 
 ## Usage
 
@@ -19,11 +16,16 @@ and assign hosts to it.
 
 ### Package Configuration
 
- * `cpuminer_version`: The [release version](https://github.com/pooler/cpuminer/releases) of the upstream `cpuminer` to download.
+The `minerd` binary will be downloaded from [cpuminer releases](https://github.com/pooler/cpuminer/releases)
+if needed. To use an alternate version, you will need to set both of these variables.
 
- * `cpuminer_sha256_checksum`: The SHA256 hash of the release archive.
+ * `cpuminer_version`: The release version of the upstream `cpuminer` to download.
+
+ * `cpuminer_sha256_checksum`: The SHA256 hash of the release archive (not the `minerd` binary itself).
 
 ### System Configuration
+
+The deployed service will have its own system user/group to own its processes and files.
 
  * `cpuminer_system_user`: The system user the `cpuminer` service will run as.
 
